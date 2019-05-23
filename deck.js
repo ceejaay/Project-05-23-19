@@ -10,7 +10,13 @@ class Deck {
 
   }
 
-  dealCard() {
+  dealCards(players) {
+    // pass in the play order array
+
+  }
+
+  dealOneCard(player) {
+    // pass in player hand array
 
   }
 }
