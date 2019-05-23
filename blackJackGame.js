@@ -43,5 +43,5 @@ class BlackJackGame {
     return false
   }
 
-
 }
+module.exports = BlackJackGame

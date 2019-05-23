@@ -8,13 +8,19 @@ class Dealer extends Player {
 
   showCards() {
     // returns an array that has only one card
-    return [this.hand[0], "X"]
+    let cardsShowing = []
+      for(let i = 0; i< this.hand - 1; i++ ) {
+        cardsShowing.push(this.hand.pop())
+      }
+      // push in a placeholder for face down card
+      cardsShowing.push('X')
+      return cardsShowing
   }
 
   highAce() {
     let hand = this.hand
     for(let i = 0; hand.length; i++) {
-      if(hand[i][value] === "A" && this.handValue < 21 ){
+      if(hand[i].value === "A" && this.handValue < 21 ){
         return true
       }
     }
