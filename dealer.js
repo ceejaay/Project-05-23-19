@@ -7,10 +7,20 @@ class Dealer extends Player {
   }
 
   showCards() {
-
+    // returns an array that has only one card
+    return [this.hand[0], "X"]
   }
 
-  // dealer player logic methods here
+  highAce() {
+    let hand = this.hand
+    for(let i = 0; hand.length; i++) {
+      if(hand[i][value] === "A" && this.handValue < 21 ){
+        return true
+      }
+    }
+    return false
+  }
+
 
 
 }

@@ -9,14 +9,12 @@ class Player {
    this.name = name
   }
 
-
-  hold() {
-    this.turn = false
-
-  }
-
   calculateHandValue() {
     // calculate value in hand
+  }
+
+  discardCards() {
+    this.hand = [];
   }
 
 

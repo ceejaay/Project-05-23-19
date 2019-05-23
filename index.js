@@ -1,63 +1,19 @@
-// code
-//
-// const hitButton = document.querySelector('.hitButton')
-// const dealButton = document.querySelector('.dealButton')
-// const holdButton = document.querySelector('.holdButton')
+// dom code
+// Wow, this is not DRY
+ const hitButton = document.querySelector('.hitButton')
+ const holdButton = document.querySelector('.holdButton')
 const playerCards= document.querySelector('.playerCards')
 const dealerCards = document.querySelector('.dealerCards')
-// const playerScore = document.querySelector('.playerScore')
-// const dealerScore = document.querySelector('.dealerScore')
-// const playerName = document.querySelector('.playerName')
-//
+ const playerScore = document.querySelector('.playerScore')
+ const dealerScore = document.querySelector('.dealerScore')
+ const playerName = document.querySelector('.playerName')
+
 const message = document.querySelector('.message');
 
-
-const Player = require('./player.js')
-const Dealer = require('./dealer.js')
-const Deck = require('./deck.js')
-
-class BlackJackGame {
-  constructor(numberOfPlayers, playToScore, playerNames=[]) {
-    this.playToScore = playToScore
-    this.numberOfPlayers = numberOfPlayers 
-    this.playerNames = playerNames
-    this.playOrder = []
-  }
+const BlackJackGame = require('./blackJackGame.js')
 
 
-  has21(player) {
-    player.calculateHandValue()
-    if (player.handValue === 21) {
-      return true
-    }
-    return false
-  }
 
-  busted(player) {
-    player.calculateHandValue()
-    if(player.handValue > 21) {
-      return true
-    }
-    return false
-  }
-
-
-  checkWinOnDeal(player, dealer) {
-    if(this.has21(player)) {
-      if(this.has21(dealer)) {
-        player.score += 1
-        dealer.score += 1
-        return true
-      } else {
-        player.score += 2
-        return true
-      }
-    }
-    return false
-  }
-
-
-}
 
 
 const mainGame = new BlackJackGame(1, 10)
@@ -65,6 +21,7 @@ const player = new Player("Chad")
 const dealer = new Dealer()
 const deck = new Deck(1)
 mainGame.playOrder = [player, dealer]
+deck.generateDeck()
 deck.shuffle()
 deck.dealCards(mainGame.playOrder)
 
@@ -72,6 +29,8 @@ deck.dealCards(mainGame.playOrder)
     // player and dealer turn is false
     // have to show the cards and change the cards in the dom somewhere here
     if(mainGame.checkWinOnDeal(player, dealer)) {
+      dealer.discardCards()
+      player.discardCards()
       deck.dealCards(mainGame.playOrder)
     } else {
       player.turn = true
@@ -85,6 +44,8 @@ deck.dealCards(mainGame.playOrder)
             player.score += 1
             player.turn = false
             dealer.turn = false
+            dealer.discardCards()
+            player.discardCards()
             deck.dealCards(mainGame.playOrder)
 
           } else if (mainGame.busted(player)) {
@@ -92,12 +53,14 @@ deck.dealCards(mainGame.playOrder)
             dealer.score += 1
             player.turn = false
             dealer.turn = false
+            dealer.discardCards()
+            player.discardCards()
             deck.dealCards(mainGame.playOrder)
           }
       })
 
       holdButton.addEvenListener('click', (e) => {
-        player.turn = false
+        player.hold()
         dealer.turn = true
       })
 
@@ -141,6 +104,23 @@ deck.dealCards(mainGame.playOrder)
                 deck.dealCards(mainGame.playOrder)
               }
         }
+
+        if (dealer.highAce && dealer.handValue < 18) {
+            deck.dealOneCard(dealer)
+              if (mainGame.has21(dealer)) {
+                message.innerHTML = "Dealer wins"
+                dealer.score += 1
+                player.turn = false
+                dealer.turn = false
+                deck.dealCards(mainGame.playOrder)
+              } else if (mainGame.busted(dealer)) {
+                message.innerHTML = "Dealer loses"
+                player.score += 1
+                player.turn = false
+                dealer.turn = false
+                deck.dealCards(mainGame.playOrder)
+              }
+        }
     }
 
   }
@@ -156,14 +136,6 @@ if (player.score > dealer.score) {
 
 
 
-// const hitButton = document.querySelector('.hitButton')
-// const dealButton = document.querySelector('.dealButton')
-// const holdButton = document.querySelector('.holdButton')
-// const playerCards= document.querySelector('.playerCards')
-// const dealerCards = document.querySelector('.dealerCards')
-// const playerScore = document.querySelector('.playerScore')
-// const dealerScore = document.querySelector('.dealerScore')
-// const playerName = document.querySelector('.playerName')
 
 
 
