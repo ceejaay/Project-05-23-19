@@ -5,20 +5,17 @@ class Player {
    this.score = 0
    this.hand = []
    this.handValue = 0
-   this.busted = false
    this.turn = false
    this.name = name
   }
 
-  hit() {
-
-  }
 
   hold() {
+    this.turn = false
 
   }
 
-  bustYesNo() {
+  calculateHandValue() {
     // calculate value in hand
   }
 
