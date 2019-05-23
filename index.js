@@ -64,6 +64,7 @@ deck.dealCards(mainGame.playOrder)
         deck.dealCards(mainGame.playOrder)
       } else if (mainGame.has21(dealer) === false) {
         player.score += 2
+        // show dealer card here
         message.innerHTML = "Player wins"
         deck.dealCards(mainGame.playOrder)
       }
